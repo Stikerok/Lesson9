@@ -3,23 +3,22 @@ package com.example.lesson9
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentActivity
 import com.example.lesson9.ui.main.Constants
-import com.example.lesson9.ui.main.MainFragment
-import com.example.lesson9.ui.main.SecondFragment
+import com.example.lesson9.ui.main.DataListener
+import com.example.lesson9.ui.main.FirstFragment
 
-class MainActivity : AppCompatActivity(), SecondFragment.Secondlistener {
-    lateinit var mainFragment: MainFragment
+class MainActivity : AppCompatActivity(), DataListener {
+    lateinit var firstFragment: FirstFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate")
         setContentView(R.layout.main_activity)
         val saved = supportFragmentManager.findFragmentByTag("Second")
-        mainFragment = saved as MainFragment? ?: MainFragment.newInstance()
+        firstFragment = saved as FirstFragment? ?: FirstFragment.newInstance()
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, mainFragment,"Second")
+                .replace(R.id.container, firstFragment, "Second")
                 .commit()
         }
     }
@@ -58,7 +57,8 @@ class MainActivity : AppCompatActivity(), SecondFragment.Secondlistener {
         const val TAG = Constants.TAG + "Main activity"
     }
 
-    override fun onText(text: String) {
-        mainFragment.setText(text)
+    override fun onTextChanged(text: String) {
+        firstFragment.setMessage(text)
+        Log.d(TAG,"onTextChanged")
     }
 }

@@ -14,13 +14,13 @@ import com.example.lesson9.R
 
 class SecondFragment : Fragment() {
     companion object {
-        fun newInstance() = SecondFragment()
         const val TAG = Constants.TAG + "Second"
     }
 
-    private lateinit var viewModel: MainViewModel
-    private lateinit var input1: EditText
-    private lateinit var input2: EditText
+    private lateinit var dataViewModel: DataViewModel
+    private lateinit var name: EditText
+    private lateinit var firstName: EditText
+    private var listener: DataListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,21 +32,23 @@ class SecondFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        input1 = view.findViewById(R.id.userName)
-        input2 = view.findViewById(R.id.user)
-        input1.doOnTextChanged { text, start, before, count ->  listener?.onText(text.toString())}
+        name = view.findViewById(R.id.userName)
+        firstName = view.findViewById(R.id.first_name)
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         Log.d(TAG, "onActivityCreated")
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        // TODO: Use the ViewModel
+        dataViewModel = ViewModelProvider(requireActivity()).get(DataViewModel::class.java)
+        Log.d(TAG, "ViewModel: $dataViewModel")
+        name.doOnTextChanged { text, _, _, _ -> listener?.onTextChanged(text.toString()) }
+        firstName.doOnTextChanged { text, _, _, _ -> dataViewModel.setText(text.toString())  }
     }
-    var listener: Secondlistener?= null
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        listener = if (context is Secondlistener) context else null
+        listener = if (context is DataListener) context else null
         Log.d(TAG, "onAttach")
     }
 
@@ -84,9 +86,5 @@ class SecondFragment : Fragment() {
         Log.d(TAG, "onDetach")
 
         super.onDetach()
-    }
-
-    interface Secondlistener {
-        fun onText(text: String)
     }
 }
