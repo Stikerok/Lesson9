@@ -68,16 +68,16 @@ class MainActivity : AppCompatActivity(), DataListener {
     fun onNavigationItemSelected2(gg: Boolean) {
         if (gg) {
             val saved = supportFragmentManager.findFragmentByTag("First")
-            firstFragment = saved as FirstFragment? ?: FirstFragment1.newInstance()
+            firstFragment = saved as FirstFragment? ?: FirstFragment.newInstance()
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, firstFragment, "First")
                 .commit()
             Log.d(TAG, "FIRST")
         } else {
             val saved = supportFragmentManager.findFragmentByTag("Third")
-            firstFragment = saved as FirstFragment? ?: FirstFragment1.newInstance()
+            thirdFragment = saved as ThirdFragment? ?: ThirdFragment.newInstance()
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, firstFragment, "Third")
+                .replace(R.id.container, thirdFragment, "Third")
                 .commit()
             Log.d(TAG, "THIRD")
         }
