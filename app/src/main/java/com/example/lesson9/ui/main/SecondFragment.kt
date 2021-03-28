@@ -25,7 +25,7 @@ class SecondFragment : Fragment() {
     private lateinit var firstName: EditText
     private lateinit var button: Button
     private var listener: DataListener? = null
-    private var gg = true
+    private var swapFragment = true
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,11 +47,11 @@ class SecondFragment : Fragment() {
         Log.d(TAG, "onActivityCreated")
         dataViewModel = ViewModelProvider(requireActivity()).get(DataViewModel::class.java)
         Log.d(TAG, "ViewModel: $dataViewModel")
-        name.doOnTextChanged { text, _, _, _ -> listener?.onTextChanged(text.toString()) }
+        name.doOnTextChanged { text, _, _, _ -> listener?.onTextChanged(text.toString(),swapFragment) }
         firstName.doOnTextChanged { text, _, _, _ -> dataViewModel.setText(text.toString())  }
         button.setOnClickListener {
-            gg = !gg
-            (activity as MainActivity?)!!.onNavigationItemSelected2((gg))
+            swapFragment = !swapFragment
+            (activity as MainActivity?)!!.onNavigationItemSelected2((swapFragment))
         }
     }
 

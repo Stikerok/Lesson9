@@ -60,9 +60,14 @@ class MainActivity : AppCompatActivity(), DataListener {
         const val TAG = Constants.TAG + "Main activity"
     }
 
-    override fun onTextChanged(text: String) {
-        firstFragment.setMessage(text)
-        Log.d(TAG, "onTextChanged")
+    override fun onTextChanged(text: String, swapFragment: Boolean) {
+        if (swapFragment) {
+            firstFragment.setMessage(text)
+            Log.d(TAG, "onTextChanged")
+        } else {
+            thirdFragment.setMessage(text)
+            Log.d(TAG, "onTextChanged")
+        }
     }
 
     fun onNavigationItemSelected2(gg: Boolean) {
