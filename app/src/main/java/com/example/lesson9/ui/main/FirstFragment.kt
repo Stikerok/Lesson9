@@ -17,7 +17,7 @@ class FirstFragment : Fragment() {
 
     companion object {
         fun newInstance() = FirstFragment()
-        const val TAG = Constants.TAG + "MainFragment"
+        const val TAG = Constants.TAG + "FirstFragment"
     }
 
     private lateinit var dataViewModel: DataViewModel

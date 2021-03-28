@@ -6,19 +6,22 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.lesson9.ui.main.Constants
 import com.example.lesson9.ui.main.DataListener
 import com.example.lesson9.ui.main.FirstFragment
+import com.example.lesson9.ui.main.ThirdFragment
+import com.example.lesson9.ui.main.FirstFragment.Companion as FirstFragment1
 
 class MainActivity : AppCompatActivity(), DataListener {
-    lateinit var firstFragment: FirstFragment
+    private lateinit var firstFragment: FirstFragment
+    private lateinit var thirdFragment: ThirdFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate")
         setContentView(R.layout.main_activity)
-        val saved = supportFragmentManager.findFragmentByTag("Second")
-        firstFragment = saved as FirstFragment? ?: FirstFragment.newInstance()
+        val saved = supportFragmentManager.findFragmentByTag("First")
+        firstFragment = saved as FirstFragment? ?: FirstFragment1.newInstance()
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, firstFragment, "Second")
+                .replace(R.id.container, firstFragment, "First")
                 .commit()
         }
     }
@@ -59,6 +62,24 @@ class MainActivity : AppCompatActivity(), DataListener {
 
     override fun onTextChanged(text: String) {
         firstFragment.setMessage(text)
-        Log.d(TAG,"onTextChanged")
+        Log.d(TAG, "onTextChanged")
+    }
+
+    fun onNavigationItemSelected2(gg: Boolean) {
+        if (gg) {
+            val saved = supportFragmentManager.findFragmentByTag("First")
+            firstFragment = saved as FirstFragment? ?: FirstFragment1.newInstance()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.container, firstFragment, "First")
+                .commit()
+            Log.d(TAG, "FIRST")
+        } else {
+            val saved = supportFragmentManager.findFragmentByTag("Third")
+            firstFragment = saved as FirstFragment? ?: FirstFragment1.newInstance()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.container, firstFragment, "Third")
+                .commit()
+            Log.d(TAG, "THIRD")
+        }
     }
 }
