@@ -10,7 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.lifecycle.Observer
-import androidx.lifecycle.observe
+import com.example.lesson9.Constants
 import com.example.lesson9.R
 
 class ThirdFragment : Fragment() {

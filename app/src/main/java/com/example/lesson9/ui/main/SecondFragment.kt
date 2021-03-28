@@ -11,6 +11,8 @@ import android.widget.EditText
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.lesson9.Constants
+import com.example.lesson9.DataListener
 import com.example.lesson9.MainActivity
 import com.example.lesson9.R
 
@@ -18,6 +20,7 @@ import com.example.lesson9.R
 class SecondFragment : Fragment() {
     companion object {
         const val TAG = Constants.TAG + "Second"
+        const val TOTAL_FRAGMENT = 2
     }
 
     private lateinit var dataViewModel: DataViewModel
@@ -25,7 +28,7 @@ class SecondFragment : Fragment() {
     private lateinit var firstName: EditText
     private lateinit var button: Button
     private var listener: DataListener? = null
-    private var swapFragment = true
+    private var swapFragment : Int = 1
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,7 +53,7 @@ class SecondFragment : Fragment() {
         name.doOnTextChanged { text, _, _, _ -> listener?.onTextChanged(text.toString(),swapFragment) }
         firstName.doOnTextChanged { text, _, _, _ -> dataViewModel.setText(text.toString())  }
         button.setOnClickListener {
-            swapFragment = !swapFragment
+            if (swapFragment < TOTAL_FRAGMENT) swapFragment++ else swapFragment = 1
             (activity as MainActivity?)!!.onNavigationItemSelected2((swapFragment))
         }
     }

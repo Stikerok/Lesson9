@@ -3,11 +3,9 @@ package com.example.lesson9
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import com.example.lesson9.ui.main.Constants
-import com.example.lesson9.ui.main.DataListener
+import androidx.fragment.app.Fragment
 import com.example.lesson9.ui.main.FirstFragment
 import com.example.lesson9.ui.main.ThirdFragment
-import com.example.lesson9.ui.main.FirstFragment.Companion as FirstFragment1
 
 class MainActivity : AppCompatActivity(), DataListener {
     private lateinit var firstFragment: FirstFragment
@@ -17,12 +15,10 @@ class MainActivity : AppCompatActivity(), DataListener {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate")
         setContentView(R.layout.main_activity)
-        val saved = supportFragmentManager.findFragmentByTag("First")
-        firstFragment = saved as FirstFragment? ?: FirstFragment1.newInstance()
+        val saved = supportFragmentManager.findFragmentByTag("firstFragment")
+        firstFragment = saved as FirstFragment? ?: FirstFragment.newInstance()
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.container, firstFragment, "First")
-                .commit()
+            showFragment(firstFragment,"firstFragment")
         }
     }
 
@@ -60,8 +56,8 @@ class MainActivity : AppCompatActivity(), DataListener {
         const val TAG = Constants.TAG + "Main activity"
     }
 
-    override fun onTextChanged(text: String, swapFragment: Boolean) {
-        if (swapFragment) {
+    override fun onTextChanged(text: String, swapFragment: Int) {
+        if (swapFragment == 1) {
             firstFragment.setMessage(text)
             Log.d(TAG, "onTextChanged")
         } else {
@@ -70,21 +66,22 @@ class MainActivity : AppCompatActivity(), DataListener {
         }
     }
 
-    fun onNavigationItemSelected2(gg: Boolean) {
-        if (gg) {
-            val saved = supportFragmentManager.findFragmentByTag("First")
+    fun onNavigationItemSelected2(swapFragment: Int) {
+        if (swapFragment == 1) {
+            val saved = supportFragmentManager.findFragmentByTag("firstFragment")
             firstFragment = saved as FirstFragment? ?: FirstFragment.newInstance()
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.container, firstFragment, "First")
-                .commit()
-            Log.d(TAG, "FIRST")
+            showFragment(firstFragment,"firstFragment")
         } else {
-            val saved = supportFragmentManager.findFragmentByTag("Third")
+            val saved = supportFragmentManager.findFragmentByTag("thirdFragment")
             thirdFragment = saved as ThirdFragment? ?: ThirdFragment.newInstance()
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.container, thirdFragment, "Third")
-                .commit()
-            Log.d(TAG, "THIRD")
+            showFragment(thirdFragment,"thirdFragment")
         }
+    }
+
+    private fun showFragment(fragment: Fragment, tag: String) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.container, fragment, tag)
+            .commit()
+        Log.d(TAG, tag)
     }
 }
