@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Lesson9</string>
+    <string name="edit_text_name">Name</string>
+    <string name="edit_text_first_name">First_name</string>
+    <string name="button_switch">Switch</string>
 </resources>

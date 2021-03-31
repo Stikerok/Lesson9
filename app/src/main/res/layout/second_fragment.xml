@@ -5,14 +5,14 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.MainFragment">
+    tools:context=".ui.main.FirstFragment">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/userNameTextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:hint="Name"
+        android:hint="@string/edit_text_name"
         app:endIconMode="clear_text"
         app:errorEnabled="true"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,22 +28,32 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/userNameTextInputLayout2"
+        android:id="@+id/userHelloTextInputLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/userNameTextInputLayout"
-        android:hint="Hello"
+        android:hint="@string/edit_text_first_name"
         app:endIconMode="clear_text"
         app:errorEnabled="true"
         app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/user"
+            android:id="@+id/first_name"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:inputType="textPersonName" />
 
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/switch_fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_switch"
+        app:layout_constraintTop_toBottomOf="@+id/userHelloTextInputLayout2"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteX="20dp"
+        tools:layout_editor_absoluteY="160dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

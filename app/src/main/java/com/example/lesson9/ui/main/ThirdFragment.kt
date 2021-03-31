@@ -1,47 +1,34 @@
 package com.example.lesson9.ui.main
 
 import android.content.Context
+import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import androidx.core.widget.doOnTextChanged
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import android.widget.TextView
+import androidx.lifecycle.Observer
 import com.example.lesson9.Constants
-import com.example.lesson9.DataListener
-import com.example.lesson9.MainActivity
 import com.example.lesson9.R
 
+class ThirdFragment : Fragment() {
 
-class SecondFragment : Fragment() {
     companion object {
-        const val TAG = Constants.TAG + "Second"
-        const val TOTAL_FRAGMENT = 2
+        fun newInstance() = ThirdFragment()
+        const val TAG = Constants.TAG + "ThirdFragment"
     }
 
     private lateinit var dataViewModel: DataViewModel
-    private lateinit var name: EditText
-    private lateinit var firstName: EditText
-    private lateinit var button: Button
-    private var listener: DataListener? = null
-    private var swapFragment : Int = 1
+    private lateinit var message: TextView
+    private lateinit var message2: TextView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         Log.d(TAG, "onCreateView")
-        return inflater.inflate(R.layout.second_fragment, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        name = view.findViewById(R.id.userName)
-        firstName = view.findViewById(R.id.first_name)
-        button = view.findViewById(R.id.switch_fragment)
+        return inflater.inflate(R.layout.first_fragment, container, false)
 
     }
 
@@ -50,17 +37,14 @@ class SecondFragment : Fragment() {
         Log.d(TAG, "onActivityCreated")
         dataViewModel = ViewModelProvider(requireActivity()).get(DataViewModel::class.java)
         Log.d(TAG, "ViewModel: $dataViewModel")
-        name.doOnTextChanged { text, _, _, _ -> listener?.onTextChanged(text.toString(),swapFragment) }
-        firstName.doOnTextChanged { text, _, _, _ -> dataViewModel.setText(text.toString())  }
-        button.setOnClickListener {
-            if (swapFragment < TOTAL_FRAGMENT) swapFragment++ else swapFragment = 1
-            (activity as MainActivity?)!!.onNavigationItemSelected2((swapFragment))
-        }
+        dataViewModel.getText().observe(this,
+            Observer<String> { t -> message2.text = t })
+
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        listener = if (context is DataListener) context else null
+
         Log.d(TAG, "onAttach")
     }
 
@@ -98,5 +82,16 @@ class SecondFragment : Fragment() {
         Log.d(TAG, "onDetach")
 
         super.onDetach()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        message = view.findViewById(R.id.message)
+        message2 = view.findViewById(R.id.message2)
+
+    }
+
+    fun setMessage(text: String) {
+        message.text = text
     }
 }

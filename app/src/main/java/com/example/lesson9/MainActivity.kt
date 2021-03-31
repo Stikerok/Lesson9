@@ -3,24 +3,22 @@ package com.example.lesson9
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentActivity
-import com.example.lesson9.ui.main.Constants
-import com.example.lesson9.ui.main.MainFragment
-import com.example.lesson9.ui.main.SecondFragment
+import androidx.fragment.app.Fragment
+import com.example.lesson9.ui.main.FirstFragment
+import com.example.lesson9.ui.main.ThirdFragment
 
-class MainActivity : AppCompatActivity(), SecondFragment.Secondlistener {
-    lateinit var mainFragment: MainFragment
+class MainActivity : AppCompatActivity(), DataListener {
+    private lateinit var firstFragment: FirstFragment
+    private lateinit var thirdFragment: ThirdFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate")
         setContentView(R.layout.main_activity)
-        val saved = supportFragmentManager.findFragmentByTag("Second")
-        mainFragment = saved as MainFragment? ?: MainFragment.newInstance()
+        val saved = supportFragmentManager.findFragmentByTag("firstFragment")
+        firstFragment = saved as FirstFragment? ?: FirstFragment.newInstance()
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.container, mainFragment,"Second")
-                .commit()
+            showFragment(firstFragment,"firstFragment")
         }
     }
 
@@ -58,7 +56,32 @@ class MainActivity : AppCompatActivity(), SecondFragment.Secondlistener {
         const val TAG = Constants.TAG + "Main activity"
     }
 
-    override fun onText(text: String) {
-        mainFragment.setText(text)
+    override fun onTextChanged(text: String, swapFragment: Int) {
+        if (swapFragment == 1) {
+            firstFragment.setMessage(text)
+            Log.d(TAG, "onTextChanged")
+        } else {
+            thirdFragment.setMessage(text)
+            Log.d(TAG, "onTextChanged")
+        }
+    }
+
+    fun onNavigationItemSelected2(swapFragment: Int) {
+        if (swapFragment == 1) {
+            val saved = supportFragmentManager.findFragmentByTag("firstFragment")
+            firstFragment = saved as FirstFragment? ?: FirstFragment.newInstance()
+            showFragment(firstFragment,"firstFragment")
+        } else {
+            val saved = supportFragmentManager.findFragmentByTag("thirdFragment")
+            thirdFragment = saved as ThirdFragment? ?: ThirdFragment.newInstance()
+            showFragment(thirdFragment,"thirdFragment")
+        }
+    }
+
+    private fun showFragment(fragment: Fragment, tag: String) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.container, fragment, tag)
+            .commit()
+        Log.d(TAG, tag)
     }
 }
